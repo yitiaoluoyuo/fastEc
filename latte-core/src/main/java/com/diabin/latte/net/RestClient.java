@@ -7,6 +7,7 @@ import com.diabin.latte.net.CallBack.IFailure;
 import com.diabin.latte.net.CallBack.IRequest;
 import com.diabin.latte.net.CallBack.ISuccess;
 import com.diabin.latte.net.CallBack.RequestCallBacks;
+import com.diabin.latte.net.download.DownloadHandler;
 import com.diabin.latte.ui.LatteLoader;
 import com.diabin.latte.ui.LoaderStyle;
 
@@ -27,9 +28,7 @@ import retrofit2.Callback;
 public class RestClient {
 
     private final String URL;
-    // private final String DOWNLOAD_DIR;
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
-    //private final String NAME;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
@@ -40,6 +39,11 @@ public class RestClient {
     private final LoaderStyle LOADER_STYLE;
     private final Context CONTEXT;
 
+    //DOWNLOAD
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
+
     public RestClient(String URL,
                       Map<String, Object> params,
                       ISuccess success,
@@ -48,6 +52,9 @@ public class RestClient {
                       IRequest request,
                       RequestBody body,
                       File file,
+                      String download_dir,
+                      String extension,
+                      String name,
                       Context context,
                       LoaderStyle loader_style
                      ) {
@@ -61,6 +68,9 @@ public class RestClient {
         this.CONTEXT = context;
         this.LOADER_STYLE = loader_style;
         this.FILE = file;
+        this.DOWNLOAD_DIR = download_dir;
+        this.EXTENSION = extension;
+        this.NAME = name;
     }
 
     public static RestClientBuilder builder() {
@@ -153,4 +163,16 @@ public class RestClient {
         }
         request(HttpMethod.PUT);
     }
+
+    public void upload(){
+        request(HttpMethod.UPLOAD);
+    }
+
+    public void download(){
+       new DownloadHandler(URL,REQUEST,DOWNLOAD_DIR,EXTENSION,NAME,SUCCESS,FAILURE,ERROR)
+       .handleDownload();
+    }
+
+
 }
+

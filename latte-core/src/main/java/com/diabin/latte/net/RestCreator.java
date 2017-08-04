@@ -15,14 +15,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * 5
  */
 
-class RestCreator {
+public class RestCreator {
 
     //全局化params不用担心PARAMS为空，不用判空。惰性加载比较严谨。
     private static final class ParamsHolder{
         static final WeakHashMap<String,Object> PARAMS= new WeakHashMap<>();
     }
 
-    static WeakHashMap<String,Object> getParams(){
+    public static WeakHashMap<String,Object> getParams(){
         return ParamsHolder.PARAMS;
     }
 
