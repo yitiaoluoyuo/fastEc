@@ -1,10 +1,14 @@
 package com.diabin.latte.net;
 
+import android.content.Context;
+
 import com.diabin.latte.net.CallBack.IError;
 import com.diabin.latte.net.CallBack.IFailure;
 import com.diabin.latte.net.CallBack.IRequest;
 import com.diabin.latte.net.CallBack.ISuccess;
+import com.diabin.latte.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -17,13 +21,16 @@ import okhttp3.RequestBody;
 
 public class RestClientBuilder {
 
-    private String mUrl;
+    private String mUrl = null;
     private static final Map<String, Object> PARAMS = RestCreator.getParams();
-    private ISuccess mISuccess;
-    private IFailure mIFailure;
-    private IError mIError;
-    private IRequest mIRequest;
-    private RequestBody mBody;
+    private ISuccess mISuccess = null;
+    private IFailure mIFailure = null;
+    private IError mIError = null;
+    private IRequest mIRequest = null;
+    private RequestBody mBody = null;
+    private Context mContext = null;
+    private LoaderStyle mLoaderStyle = null;
+    private File mFile = null;
 
     RestClientBuilder() {
 
@@ -44,10 +51,17 @@ public class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder file(File file) {
+        this.mFile = file;
+        return this;
+    }
+
     public final RestClientBuilder raw(String raw) {
         this.mBody = RequestBody.create(MediaType.parse("application/jason;charset=UTF-8"), raw);
         return this;
     }
+
+
 
     public final RestClientBuilder success(ISuccess iSuccess) {
         this.mISuccess = iSuccess;
@@ -69,7 +83,31 @@ public class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder loader(Context context ,LoaderStyle loaderStyle){
+        this.mContext = context;
+        this.mLoaderStyle = loaderStyle;
+        return this;
+    }
+
+    //默认加载样式
+    public final RestClientBuilder loader(Context context ){
+        this.mContext = context;
+        this.mLoaderStyle = LoaderStyle.BallSpinFadeLoaderIndicator;
+        return this;
+    }
+
     public final RestClient builder() {
-        return new RestClient(mUrl, PARAMS, mISuccess, mIFailure, mIError, mIRequest, mBody);
+        return new RestClient(
+                mUrl,
+                PARAMS,
+                mISuccess,
+                mIFailure,
+                mIError,
+                mIRequest,
+                mBody,
+                mFile,
+                mContext,
+                mLoaderStyle
+                );
     }
 }

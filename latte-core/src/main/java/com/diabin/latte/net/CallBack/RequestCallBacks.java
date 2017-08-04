@@ -1,5 +1,10 @@
 package com.diabin.latte.net.CallBack;
 
+import android.os.Handler;
+
+import com.diabin.latte.ui.LatteLoader;
+import com.diabin.latte.ui.LoaderStyle;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,15 +19,20 @@ public class RequestCallBacks implements Callback<String> {
     private final IFailure FAILURE;
     private final IError ERROR;
     private final IRequest REQUEST;
+    private final LoaderStyle LOADER_STYLE;
+
+    //声明static类型的Handler避免内存泄露
+    private static final Handler HANDLER = new Handler();
 
     public RequestCallBacks(ISuccess success,
                             IFailure failure,
                             IError error,
-                            IRequest request) {
+                            IRequest request,LoaderStyle style) {
         this.SUCCESS = success;
         this.FAILURE = failure;
         this.ERROR = error;
         this.REQUEST = request;
+        this.LOADER_STYLE = style;
     }
 
     @Override
@@ -39,6 +49,8 @@ public class RequestCallBacks implements Callback<String> {
                 ERROR.onError(response.code(),response.message());
             }
         }
+
+        stopLoading();
     }
 
     @Override
@@ -48,6 +60,18 @@ public class RequestCallBacks implements Callback<String> {
         }
         if (REQUEST!=null){
             REQUEST.onRequestEnd();
+        }
+        stopLoading();
+    }
+
+    private void stopLoading(){
+        if (LOADER_STYLE !=null){
+            HANDLER.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    LatteLoader.stopLoading();
+                }
+            },1000);
         }
     }
 }

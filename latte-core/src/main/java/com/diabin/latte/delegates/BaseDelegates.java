@@ -33,6 +33,7 @@ public abstract class BaseDelegates extends SwipeBackFragment{
                              @Nullable Bundle savedInstanceState) {
         View rootView = null;
         if (setLayout() instanceof Integer){
+            //**********************************************************是否附加到布局文件的根视图
             rootView = inflater.inflate((Integer) setLayout(),container,false);
         }else if (setLayout() instanceof  View){
             rootView = (View) setLayout();

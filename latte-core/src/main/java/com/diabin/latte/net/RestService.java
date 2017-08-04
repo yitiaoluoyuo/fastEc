@@ -31,6 +31,7 @@ public interface RestService {
     @POST
     Call<String> post(@Url String url, @FieldMap WeakHashMap<String, Object> params);
 
+    //post一个原始的数据
     @POST
     Call<String> postRaw(@Url String url, @Body RequestBody body);
 

@@ -10,8 +10,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
  * Created by Administrator on 2017/7/31.
  */
 
-public class ExampleApp extends Application{
-
+public class ExampleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,4 +20,6 @@ public class ExampleApp extends Application{
                 .withApiHost("http://127.0.0.1/")
                 .configure();
     }
+
+
 }

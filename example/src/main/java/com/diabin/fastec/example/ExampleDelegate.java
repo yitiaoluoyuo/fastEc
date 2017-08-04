@@ -25,7 +25,7 @@ public class ExampleDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         //对每一个控件做的
-        testRestClient();
+        //testRestClient();
 
     }
 

@@ -24,3 +24,6 @@ public class ExampleInstrumentedTest {
         assertEquals("com.diabin.fastec.example", appContext.getPackageName());
     }
 }
+
+
+
